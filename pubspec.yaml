@@ -45,7 +45,9 @@ dependencies:
   dio: ^5.4.0
   freezed_annotation: ^2.4.1 # 추가
   freezed: ^2.4.5
+
   
+ 
   
  
 
@@ -54,6 +56,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.4.6 # 추가
   json_serializable: ^6.7.1 # 추가
+  json_annotation: ^4.8.1
 
    
 

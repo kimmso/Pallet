@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/app.dart';
 import 'package:flutter_getx_palette_diary/src/controller/home_controller.dart';
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
-import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_textfield.dart';
 import 'package:get/get.dart';
 
 class WritePage extends GetView<HomeController> {
-  const WritePage({super.key});
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,11 @@ class WritePage extends GetView<HomeController> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(() => const Home());
+                if (_formkey.currentState!.validate()) {
+                  Get.to(() => const App());
+                } else {
+                  Get.snackbar("글쓰기 시도", "글쓰기 실패");
+                }
               },
               icon: const Icon(Icons.check))
         ],
