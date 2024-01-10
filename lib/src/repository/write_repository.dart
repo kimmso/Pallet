@@ -9,7 +9,7 @@ class WriteRepository {
   Future<Write?> writeApi(Map<String, dynamic> json) async {
     try {
       print(json);
-      return dio.post(ApiUrls.loginUrl, data: json).then((response) {
+      return dio.post(ApiUrls.writeUrl, data: json).then((response) {
         print(response.statusCode);
         print(response.data);
         if (response.statusCode == 200) {

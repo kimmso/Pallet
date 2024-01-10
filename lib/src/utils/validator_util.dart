@@ -43,9 +43,7 @@ class ValidatorUtil {
 
   static String? validateContent(String? value) {
     if (value == null || value.isEmpty) {
-      return "공백이 들어갈 수 업습니다.";
-    } else if (value.length > 100) {
-      return "내용의 길이를 초과하였습니다.";
+      return "공백이 들어갈 수 없습니다.";
     } else {
       return null;
     }

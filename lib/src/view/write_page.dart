@@ -19,7 +19,7 @@ class WritePage extends GetView<HomeController> {
         actions: [
           IconButton(
               onPressed: () {
-                if (_formkey.currentState!.validate()) {
+                if (_formkey.currentState?.validate() ?? false) {
                   Get.to(() => const App());
                 } else {
                   Get.snackbar("글쓰기 시도", "글쓰기 실패");
