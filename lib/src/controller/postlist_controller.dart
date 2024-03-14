@@ -3,6 +3,10 @@ import 'package:flutter_getx_palette_diary/src/repository/postlist_repository.da
 import 'package:get/get.dart';
 
 class PostListController extends GetxController {
+  final Rx<List<PostList>> _postlists = Rx<List<PostList>>([]);
+
+  var profileImagePath = ''.obs;
+  List<PostList> get postlists => _postlists.value;
   final PostListRepository repository;
   PostListController({
     required this.repository,
@@ -10,6 +14,7 @@ class PostListController extends GetxController {
   Future<List<PostList>?> postlistFetchData(String targetTime) async {
     try {
       final postlist = await repository.postlistApi(targetTime); // 비동기 작업을 기다림
+      _postlists.value = postlists;
 
       return postlist;
     } catch (e) {
@@ -20,8 +25,7 @@ class PostListController extends GetxController {
   }
 }
 
-//   void postlistPutData() {
-// final postlist = 
- 
-//     repository.putPostLists(postlist);
-//   }
+// void postlistPutData() {
+//   var repository;
+//   repository.putPostLists();
+// }

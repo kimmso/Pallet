@@ -68,7 +68,7 @@ class MyPage extends GetView<PostListController> {
                       children: [
                         // 포스트 이미지 표시
                         Container(
-                          height: 200,
+                          height: 400,
                           width: double.infinity,
                           child: Image.network(
                             postlist.photo_url ?? '',

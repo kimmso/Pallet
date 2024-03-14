@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
 
@@ -9,9 +11,12 @@ class PostListRepository {
 
   Future<List<PostList>?> postlistApi(String targetTime) async {
     try {
-      String postlistUrl = "${ApiUrls.mypostUrl}$targetTime";
+      String postlistUrl = "${ApiUrls.mypostUrl}/$targetTime";
+
+      print(postlistUrl);
 
       String? accessToken = GetStorage().read('accessToken');
+      // dio.options.contentType = 'application/json';
 
       dio.options.headers = {'Authorization': 'Bearer $accessToken'};
       final response = await dio.get(postlistUrl);
@@ -19,11 +24,18 @@ class PostListRepository {
       if (response.statusCode == 200) {
         List<PostList> postlists = [];
 
-        for (var data in response.data) {
-          print(1);
-          final postlist = PostList.fromJson(data);
-          print(2);
-          postlists.add(postlist);
+        if (response.data is List) {
+          if (response.data.isNotEmpty) {
+            for (var data in response.data) {
+              final postlist = PostList.fromJson(data);
+
+              postlists.add(postlist);
+            }
+          } else {
+            print('response.data is empty');
+          }
+        } else {
+          print('response.data is not a list');
         }
 
         return postlists;
@@ -32,8 +44,8 @@ class PostListRepository {
         throw Exception();
       }
     } catch (e) {
-      print(4);
-      throw Exception();
+      print('Error occurred while fetching post list: $e'); // 에러 메시지 출력
+      throw Exception('Failed to fetch post list: $e');
     }
   }
 
