@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/model/post.dart';
-
 import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
