@@ -19,7 +19,7 @@ class UpdatePage extends GetView<HomeController> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(() => const Home());
+                Get.to(() => Home());
               },
               icon: const Icon(Icons.check))
         ],

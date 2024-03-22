@@ -41,7 +41,6 @@ class MyPage extends GetView<PostListController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _menuicon(),
           FutureBuilder(
             future: controller.postlistFetchData(targetTime),
             builder: (context, AsyncSnapshot<List<PostList>?> snapshot) {
@@ -66,6 +65,8 @@ class MyPage extends GetView<PostListController> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        _menuicon(),
+
                         // 포스트 이미지 표시
                         Container(
                           height: 400,
@@ -75,7 +76,7 @@ class MyPage extends GetView<PostListController> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         // 포스트 내용을 코멘트 쓰는 구간에 표시
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -84,7 +85,7 @@ class MyPage extends GetView<PostListController> {
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                       ],
                     );
                   }).toList(),

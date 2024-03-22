@@ -1,6 +1,9 @@
+import 'package:flutter_getx_palette_diary/src/binding/init_binding.dart';
 import 'package:flutter_getx_palette_diary/src/model/feed.dart';
 import 'package:flutter_getx_palette_diary/src/repository/feed_repository.dart';
 import 'package:get/get.dart';
+
+import '../app.dart';
 
 class FeedController extends GetxController {
   final Rx<List<Feed>> _feeds = Rx<List<Feed>>([]);

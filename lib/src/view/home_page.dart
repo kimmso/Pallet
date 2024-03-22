@@ -5,7 +5,7 @@ import 'package:flutter_getx_palette_diary/src/widget/home_fab.dart';
 import 'package:get/get.dart';
 
 class Home extends GetView<HomeController> {
-  const Home({super.key});
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {

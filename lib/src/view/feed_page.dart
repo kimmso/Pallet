@@ -38,8 +38,7 @@ class _FeedPageState extends State<FeedPage> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Get.to(() => const App());
-            // 뒤로가기 버튼이 클릭되었을 때 수행할 동작
+            Get.off(() => const App());
           },
           icon: const Icon(Icons.arrow_back),
         ),

@@ -44,7 +44,7 @@ class Profile extends GetView<UserController> {
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: Colors.black, width: 2.0),
+            border: Border.all(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(15.0),
           ),
           width: double.infinity,
@@ -98,14 +98,14 @@ class Profile extends GetView<UserController> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Text(
-              '▪ 이름 :  ${controller.readName()}',
+              ' 이름 :  ${controller.readName()}',
               style: const TextStyle(fontSize: 20.0),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: Text(
-              '▪ Email : ${controller.readId()}',
+              ' Email : ${controller.readId()}',
               style: const TextStyle(fontSize: 20.0),
             ),
           ),

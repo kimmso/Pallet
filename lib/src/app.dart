@@ -58,7 +58,7 @@ class App extends GetView<BottomNavController> {
       children: [
         Home(),
         FeedPage(controller: feedController),
-        Profile(),
+        const Profile(),
       ],
     );
   }
