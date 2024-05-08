@@ -30,6 +30,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
   DateTime? _selectedDay;
   DateTime? _focusedDay;
   String? update_date;
+  String targetTime = DateFormat('yyyy-MM').format(DateTime.now());
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
     _selectedDay = widget.focusMonth;
     _controller =
         Get.put(CalenderDateController(repository: CalenderDateRepository()));
-    // _controller.calenderdateFetchData();
+    _controller.calenderdateFetchData(targetTime);
   }
 
   @override

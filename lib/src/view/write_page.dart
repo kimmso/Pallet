@@ -71,7 +71,7 @@ class WritePage extends GetView<PostController> {
 
   Widget _text() {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: CustomTextField(
         controller: controller.content,
         hint: '코멘트를 입력하세요.',

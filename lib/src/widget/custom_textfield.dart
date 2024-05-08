@@ -5,11 +5,12 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?) validator;
 
-  const CustomTextField(
-      {super.key,
-      required this.hint,
-      required this.validator,
-      this.controller});
+  const CustomTextField({
+    super.key,
+    required this.hint,
+    required this.validator,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {

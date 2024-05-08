@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
+import 'package:flutter_getx_palette_diary/src/view/update_page.dart';
 import 'package:get/get.dart';
 
 class MyPage extends GetView<PostListController> {
@@ -65,7 +66,12 @@ class MyPage extends GetView<PostListController> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _menuicon(),
+                        _menuicon(() {
+                          Get.to(() => UpdatePage(
+                                photo_url: postlist.photo_url,
+                                content: postlist.content,
+                              ));
+                        }),
 
                         // 포스트 이미지 표시
                         Container(
@@ -98,7 +104,7 @@ class MyPage extends GetView<PostListController> {
     );
   }
 
-  Widget _menuicon() {
+  Widget _menuicon(Function onTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -106,13 +112,11 @@ class MyPage extends GetView<PostListController> {
           itemBuilder: (context) {
             return [
               PopupMenuItem(
-                child: Text('수정하기'),
-                onTap: () {
-                  // 수정 버튼 클릭 시 수행할 작업
-                },
+                child: const Text('수정하기'),
+                onTap: onTap as void Function()?,
               ),
               PopupMenuItem(
-                child: Text('삭제하기'),
+                child: const Text('삭제하기'),
                 onTap: () {
                   // 삭제 버튼 클릭 시 수행할 작업
                 },
