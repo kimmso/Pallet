@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_palette_diary/src/binding/post_binding.dart';
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
@@ -131,8 +130,8 @@ class MyPage extends GetView<PostListController> {
               ),
             ];
           },
-          icon: Icon(Icons.more_vert),
-          offset: Offset(0, 50),
+          icon: const Icon(Icons.more_vert),
+          offset: const Offset(0, 50),
         ),
       ],
     );
