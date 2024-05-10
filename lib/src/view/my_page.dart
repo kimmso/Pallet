@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/binding/post_binding.dart';
+import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
+import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/update_page.dart';
 import 'package:get/get.dart';
 
 class MyPage extends GetView<PostListController> {
   final DateTime selectedDate;
 
-  MyPage({required this.selectedDate});
+  const MyPage({super.key, required this.selectedDate});
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +70,19 @@ class MyPage extends GetView<PostListController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _menuicon(() {
-                          Get.to(() => UpdatePage(
-                                photo_url: postlist.photo_url,
-                                content: postlist.content,
-                              ));
+                          Get.to(
+                              () => UpdatePage(
+                                    photo_url: postlist.photo_url,
+                                    content: postlist.content,
+                                  ), binding: BindingsBuilder(() {
+                            Get.put(
+                                PostController(repository: PostRepository()));
+                            PostController.to.initTextField(postlist.content!);
+                          }));
                         }),
 
                         // 포스트 이미지 표시
-                        Container(
+                        SizedBox(
                           height: 400,
                           width: double.infinity,
                           child: Image.network(

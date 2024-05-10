@@ -11,6 +11,7 @@ class PostListController extends GetxController {
   PostListController({
     required this.repository,
   });
+
   Future<List<PostList>?> postlistFetchData(String targetTime) async {
     try {
       final postlist = await repository.postlistApi(targetTime); // 비동기 작업을 기다림

@@ -8,13 +8,16 @@ class PostController extends GetxController {
   final Rxn<Post> _posts = Rxn<Post>();
   final Rxn<Post> _contents = Rxn<Post>();
 
-  XFile? file;
+  final Rxn<XFile?> _file = Rxn<XFile?>();
 
-  final TextEditingController _content = TextEditingController();
+  late TextEditingController _content;
   final RxBool _share_check = false.obs;
+
+  late String hint = "";
 
   TextEditingController get content => _content;
   RxBool get shareCheck => _share_check;
+  XFile? get file => _file.value;
 
   get isDateSelected => null;
 
@@ -28,11 +31,14 @@ class PostController extends GetxController {
     required this.repository,
   });
 
+  static PostController get to => Get.find();
+
   Future<void> pickImageV02() async {
     ImagePicker().pickImage(source: ImageSource.gallery).then(
       (image) {
         if (image != null) {
-          file = image;
+          _file(image);
+          _file.refresh();
         }
       },
     );
@@ -80,5 +86,9 @@ class PostController extends GetxController {
       'share_check': _share_check.value == true, // 문자열을 bool로 변환
     };
     repository.putContents(content);
+  }
+
+  void initTextField(String? hint) {
+    _content = TextEditingController(text: hint ?? "");
   }
 }

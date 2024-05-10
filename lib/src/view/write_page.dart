@@ -14,25 +14,27 @@ class WritePage extends GetView<PostController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('글쓰기'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                Post? post = await controller.postfetchData();
-                print('사진 url 반환 성공');
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          title: const Text('글쓰기'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  Post? post = await controller.postfetchData();
+                  print('사진 url 반환 성공');
 
-                controller.contentFetchData(post);
+                  controller.contentFetchData(post);
 
-                //Get.to(() => const App());
-                Get.back();
-              },
-              icon: const Icon(Icons.check))
-        ],
+                  //Get.to(() => const App());
+                  Get.back();
+                },
+                icon: const Icon(Icons.check))
+          ],
+        ),
+        body: _body(),
       ),
-      body: _body(),
     );
   }
 

@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_getx_palette_diary/src/model/calenderdate.dart';
+import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
+import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/profile_modify.dart';
 import 'package:flutter_getx_palette_diary/src/view/write_page.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   //calendar
@@ -65,7 +65,10 @@ class HomeController extends GetxController {
 
 //Write() 이동
   void handleFabPress() {
-    Get.to(() => WritePage());
+    Get.to(() => WritePage(), binding: BindingsBuilder(() {
+      Get.put(PostController(repository: PostRepository()));
+      PostController.to.initTextField("");
+    }));
   }
 
 //갤러리 이동, 선택
