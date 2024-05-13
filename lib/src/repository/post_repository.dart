@@ -110,4 +110,68 @@ class PostRepository {
     // 6자리의 난수를 생성하여 확장자를 붙여서 반환
     return '${Random().nextInt(900000) + 100000}.jpg';
   }
+
+  Future<Post?> changeimageApi(XFile? file, int post_no) async {
+    try {
+      if (file == null) {
+        print('널이다잉');
+      }
+      String? accessToken = GetStorage().read('accessToken');
+
+      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
+
+      dio.options.contentType = 'multipart/form-data';
+
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(file!.path,
+            filename: generateRandomFileName())
+      });
+      String changeimageUrl = "${ApiUrls.writeUrl}/${post_no}";
+      final response = await dio.patch(changeimageUrl, data: formData);
+
+      if (response.statusCode == 201) {
+        return Post.fromJson(response.data);
+      } else if (response.statusCode == 400) {
+        final errorMessage = response.data['error'];
+        print("글쓰기 실패: $errorMessage");
+        return null;
+      } else {
+        throw Exception("글쓰기 오류");
+      }
+    } catch (e) {
+      print("Error in loginApi: $e");
+      throw Exception("글쓰기 중 오류 발생");
+    }
+  }
+
+  Future<Post?> changecontentApi(Map<String, dynamic> json, int post_no) async {
+    try {
+      dio.options.contentType = 'application/json';
+      String? accessToken = GetStorage().read('accessToken');
+      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
+      String changecontentUrl = "${ApiUrls.postUrl}/${post_no}";
+      final response =
+          await dio.patch(changecontentUrl, data: jsonEncode(json));
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+      } else {
+        print("글쓰기 실패");
+        print(response.data);
+        return null;
+      }
+    } catch (error) {
+      // DioError인 경우
+      if (error is DioError) {
+        // 에러 타입에 따라 처리
+        if (error.response != null) {
+          print('Response error: ${error.response}');
+        } else {
+          print('Connection error: $error');
+        }
+      } else {
+        print('Non-DioError: $error');
+      }
+    }
+  }
 }

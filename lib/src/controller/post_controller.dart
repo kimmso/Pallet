@@ -91,4 +91,31 @@ class PostController extends GetxController {
   void initTextField(String? hint) {
     _content = TextEditingController(text: hint ?? "");
   }
+
+  Future<Post?> changepostfetchData(int post_no) async {
+    final post = await repository.changeimageApi(file, post_no);
+    if (post != null) {
+      _posts.value = post;
+      return post;
+    } else {
+      Get.snackbar(
+        "글쓰기 실패",
+        ".",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 3),
+      );
+    }
+  }
+
+  void changecontentFetchData(post, int post_no) {
+    // print('_share_check.value: ${_share_check.value}'); // 디버깅 메시지 추가
+
+    final content = {
+      'content': _content.value.text,
+      'photo_url': post.photo_url,
+      'share_check': _share_check.value == true,
+    };
+
+    repository.changecontentApi(content, post_no);
+  }
 }

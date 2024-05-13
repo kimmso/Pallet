@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
+import 'package:flutter_getx_palette_diary/src/model/post.dart';
 
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
 
@@ -14,8 +15,10 @@ import 'package:get/get.dart';
 class UpdatePage extends GetView<PostController> {
   final String? photo_url;
   final String? content;
+  final int? post_no;
 
-  const UpdatePage({Key? key, this.photo_url, this.content}) : super(key: key);
+  const UpdatePage({Key? key, this.photo_url, this.content, this.post_no})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,11 @@ class UpdatePage extends GetView<PostController> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
+                Post? post = await controller.changepostfetchData(post_no!);
+                print('사진 url 반환 성공');
+
+                controller.changecontentFetchData(post, post_no!);
                 Get.to(() => Home());
               },
               icon: const Icon(Icons.check))
@@ -40,7 +47,7 @@ class UpdatePage extends GetView<PostController> {
       child: Column(
         children: [
           _image(),
-          SizedBox(height: 20),
+          _sharebutton(),
           _text(),
         ],
       ),
@@ -80,6 +87,23 @@ class UpdatePage extends GetView<PostController> {
 
         validator: ValidatorUtil.validateContent,
       ),
+    );
+  }
+
+  Widget _sharebutton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('이 글을 다른 사람과 공유하겠습니까? ', style: TextStyle(fontSize: 16)),
+        IconButton(
+          onPressed: () {
+            controller.updateCheckbox(!controller.shareCheck.value);
+          },
+          icon: Obx(() => controller.shareCheck.value
+              ? const Icon(Icons.check_box_outlined)
+              : const Icon(Icons.check_box_outline_blank)),
+        ),
+      ],
     );
   }
 }

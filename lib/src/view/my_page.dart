@@ -73,6 +73,7 @@ class MyPage extends GetView<PostListController> {
                               () => UpdatePage(
                                     photo_url: postlist.photo_url,
                                     content: postlist.content,
+                                    post_no: postlist.post_no,
                                   ), binding: BindingsBuilder(() {
                             Get.put(
                                 PostController(repository: PostRepository()));
