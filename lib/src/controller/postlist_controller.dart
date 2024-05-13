@@ -25,3 +25,8 @@ class PostListController extends GetxController {
     }
   }
 }
+
+// void postlistPutData() {
+//   var repository;
+//   repository.putPostLists();
+// }

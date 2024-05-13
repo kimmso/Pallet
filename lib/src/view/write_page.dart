@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/post.dart';
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
+
 import 'package:flutter_getx_palette_diary/src/widget/custom_textfield.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,7 @@ class WritePage extends GetView<PostController> {
 
                   controller.contentFetchData(post);
 
+                  //Get.to(() => const App());
                   Get.back();
                 },
                 icon: const Icon(Icons.check))
