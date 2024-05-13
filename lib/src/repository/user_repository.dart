@@ -38,7 +38,6 @@ class UserRepository {
   Future<void> putUsers(Map<String, dynamic> json) async {
     try {
       dio.put(ApiUrls.loginUrl, data: json).then((response) {
-        // print(response.statusCode);
         if (response.statusCode == 201) {
         } else {
           // exception
@@ -52,13 +51,8 @@ class UserRepository {
 
   Future<User?> signupApi(Map<String, dynamic> json) async {
     try {
-      //print(json);
-      // return dio.post(ApiUrls.signupUrl, data: json).then((response) {
       final response = await dio.post(ApiUrls.signupUrl, data: json);
 
-      // print(response.statusCode);
-
-      // print(response.data);
       if (response.statusCode == 201) {
       } else {
         return null;
@@ -73,7 +67,6 @@ class UserRepository {
   Future<void> putSignups(Map<String, dynamic> json) async {
     try {
       dio.put(ApiUrls.signupUrl, data: json).then((response) {
-        //print(response.statusCode);
         if (response.statusCode == 201) {
         } else {
           // exception
@@ -92,9 +85,6 @@ class UserRepository {
       dio.options.headers = {'Authorization': 'Bearer $accessToken'};
       final response = await dio.get(ApiUrls.myinfoUrl);
 
-      // print(response.statusCode);
-
-      // print(response.data);
       if (response.statusCode == 200) {
         return User.fromJson(response.data);
       } else {
@@ -108,7 +98,6 @@ class UserRepository {
   Future<void> putMyinfos(Map<String, dynamic> json) async {
     try {
       dio.put(ApiUrls.myinfoUrl, data: json).then((response) {
-        //print(response.statusCode);
         if (response.statusCode == 200) {
         } else {
           // exception
