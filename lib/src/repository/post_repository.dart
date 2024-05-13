@@ -14,9 +14,7 @@ class PostRepository {
 
   Future<Post?> writeApi(XFile? file) async {
     try {
-      if (file == null) {
-        print('널이다잉');
-      }
+      if (file == null) {}
       String? accessToken = GetStorage().read('accessToken');
 
       dio.options.headers = {'Authorization': 'Bearer $accessToken'};
@@ -113,9 +111,7 @@ class PostRepository {
 
   Future<Post?> changeimageApi(XFile? file, int post_no) async {
     try {
-      if (file == null) {
-        print('널이다잉');
-      }
+      if (file == null) {}
       String? accessToken = GetStorage().read('accessToken');
 
       dio.options.headers = {'Authorization': 'Bearer $accessToken'};

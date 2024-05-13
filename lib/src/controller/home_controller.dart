@@ -28,9 +28,6 @@ class HomeController extends GetxController {
   Rx<File?> profileSelectedImage = Rx<File?>(null);
   Rx<File?> selectedImage = Rx<File?>(null);
   final picker = ImagePicker();
-  // final Rxn<AssetEntity> _selectedImage = Rxn<AssetEntity>();
-  // //write
-  // AssetEntity? get writeSelectedImage => _selectedImage.value;
 
   // _profileImage에서 설정되어있는지
   bool get isProfileImageSet => profileImagePath.value.isNotEmpty;
@@ -77,9 +74,7 @@ class HomeController extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       profileImagePath.value = pickedFile.path;
-    } else {
-      // print('사진을 서택하지 않았습니다.');
-    }
+    } else {}
   }
 
   // 프로필 수정 페이지로 이동

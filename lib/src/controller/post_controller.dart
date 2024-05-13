@@ -67,8 +67,6 @@ class PostController extends GetxController {
   }
 
   void contentFetchData(post) {
-    // print('_share_check.value: ${_share_check.value}'); // 디버깅 메시지 추가
-
     final content = {
       'content': _content.value.text,
       'photo_url': post.photo_url,
@@ -108,8 +106,6 @@ class PostController extends GetxController {
   }
 
   void changecontentFetchData(post, int post_no) {
-    // print('_share_check.value: ${_share_check.value}'); // 디버깅 메시지 추가
-
     final content = {
       'content': _content.value.text,
       'photo_url': post.photo_url,

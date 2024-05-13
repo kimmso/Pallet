@@ -146,16 +146,10 @@ class UserController extends GetxController {
     screenHeight = MediaQuery.of(context).size.height;
   }
 
-// 개인정보 view로 이동
-
 // SignUp view 이동
   void moveToRegister() {
     Get.to(() => SignUpPage(), binding: InitBinding());
   }
-
-  // void objectSeparation() {
-
-  // }
 
   // Login view 이동
   void moveToLogin() {
