@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/app.dart';
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
@@ -158,7 +159,7 @@ class MyPage extends GetView<PostListController> {
               onPressed: () {
                 Get.back();
                 controller.deletefetchData(postNo);
-                Get.off(() => Home());
+                Get.off(() => App());
               },
             ),
           ],
