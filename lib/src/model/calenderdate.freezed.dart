@@ -20,7 +20,7 @@ CalenderDate _$CalenderDateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CalenderDate {
-  String? get update_date => throw _privateConstructorUsedError;
+  String? get create_date => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $CalenderDateCopyWith<$Res> {
           CalenderDate value, $Res Function(CalenderDate) then) =
       _$CalenderDateCopyWithImpl<$Res, CalenderDate>;
   @useResult
-  $Res call({String? update_date});
+  $Res call({String? create_date});
 }
 
 /// @nodoc
@@ -50,12 +50,12 @@ class _$CalenderDateCopyWithImpl<$Res, $Val extends CalenderDate>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? update_date = freezed,
+    Object? create_date = freezed,
   }) {
     return _then(_value.copyWith(
-      update_date: freezed == update_date
-          ? _value.update_date
-          : update_date // ignore: cast_nullable_to_non_nullable
+      create_date: freezed == create_date
+          ? _value.create_date
+          : create_date // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -69,7 +69,7 @@ abstract class _$$CalenderDateImplCopyWith<$Res>
       __$$CalenderDateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? update_date});
+  $Res call({String? create_date});
 }
 
 /// @nodoc
@@ -83,12 +83,12 @@ class __$$CalenderDateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? update_date = freezed,
+    Object? create_date = freezed,
   }) {
     return _then(_$CalenderDateImpl(
-      update_date: freezed == update_date
-          ? _value.update_date
-          : update_date // ignore: cast_nullable_to_non_nullable
+      create_date: freezed == create_date
+          ? _value.create_date
+          : create_date // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -97,17 +97,17 @@ class __$$CalenderDateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CalenderDateImpl implements _CalenderDate {
-  _$CalenderDateImpl({required this.update_date});
+  _$CalenderDateImpl({required this.create_date});
 
   factory _$CalenderDateImpl.fromJson(Map<String, dynamic> json) =>
       _$$CalenderDateImplFromJson(json);
 
   @override
-  final String? update_date;
+  final String? create_date;
 
   @override
   String toString() {
-    return 'CalenderDate(update_date: $update_date)';
+    return 'CalenderDate(create_date: $create_date)';
   }
 
   @override
@@ -115,13 +115,13 @@ class _$CalenderDateImpl implements _CalenderDate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CalenderDateImpl &&
-            (identical(other.update_date, update_date) ||
-                other.update_date == update_date));
+            (identical(other.create_date, create_date) ||
+                other.create_date == create_date));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, update_date);
+  int get hashCode => Object.hash(runtimeType, create_date);
 
   @JsonKey(ignore: true)
   @override
@@ -138,14 +138,14 @@ class _$CalenderDateImpl implements _CalenderDate {
 }
 
 abstract class _CalenderDate implements CalenderDate {
-  factory _CalenderDate({required final String? update_date}) =
+  factory _CalenderDate({required final String? create_date}) =
       _$CalenderDateImpl;
 
   factory _CalenderDate.fromJson(Map<String, dynamic> json) =
       _$CalenderDateImpl.fromJson;
 
   @override
-  String? get update_date;
+  String? get create_date;
   @override
   @JsonKey(ignore: true)
   _$$CalenderDateImplCopyWith<_$CalenderDateImpl> get copyWith =>

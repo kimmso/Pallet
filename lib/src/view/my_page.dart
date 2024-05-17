@@ -3,6 +3,7 @@ import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
 import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
+import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/update_page.dart';
 import 'package:get/get.dart';
 
@@ -26,14 +27,7 @@ class MyPage extends GetView<PostListController> {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _body(),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+      body: _body(),
     );
   }
 
@@ -53,11 +47,11 @@ class MyPage extends GetView<PostListController> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text('에러 발생: ${snapshot.error}'),
+                  child: const Text('데이터를 불러오는 중 오류가 발생했습니다.'),
                 );
               } else {
                 List<PostList>? postList = snapshot.data;
-                if (postList == null) {
+                if (postList == null || postList.isEmpty) {
                   return const Center(
                     child: Text('데이터 없음'),
                   );
@@ -68,19 +62,27 @@ class MyPage extends GetView<PostListController> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _menuicon(() {
-                          Get.to(
+                        _menuIcon(
+                          context,
+                          onEdit: () {
+                            Get.to(
                               () => UpdatePage(
-                                    photo_url: postlist.photo_url,
-                                    content: postlist.content,
-                                    post_no: postlist.post_no,
-                                  ), binding: BindingsBuilder(() {
-                            Get.put(
-                                PostController(repository: PostRepository()));
-                            PostController.to.initTextField(postlist.content!);
-                          }));
-                        }),
-
+                                photo_url: postlist.photo_url,
+                                content: postlist.content,
+                                post_no: postlist.post_no,
+                              ),
+                              binding: BindingsBuilder(() {
+                                Get.put(PostController(
+                                    repository: PostRepository()));
+                                PostController.to
+                                    .initTextField(postlist.content!);
+                              }),
+                            );
+                          },
+                          onDelete: () {
+                            _confirmDelete(context, postlist.post_no!);
+                          },
+                        ),
                         // 포스트 이미지 표시
                         SizedBox(
                           height: 400,
@@ -112,7 +114,8 @@ class MyPage extends GetView<PostListController> {
     );
   }
 
-  Widget _menuicon(Function onTap) {
+  Widget _menuIcon(BuildContext context,
+      {required Function onEdit, required Function onDelete}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -121,13 +124,11 @@ class MyPage extends GetView<PostListController> {
             return [
               PopupMenuItem(
                 child: const Text('수정하기'),
-                onTap: onTap as void Function()?,
+                onTap: () => Future.microtask(() => onEdit()),
               ),
               PopupMenuItem(
                 child: const Text('삭제하기'),
-                onTap: () {
-                  // 삭제 버튼 클릭 시 수행할 작업
-                },
+                onTap: () => Future.microtask(() => onDelete()),
               ),
             ];
           },
@@ -135,6 +136,34 @@ class MyPage extends GetView<PostListController> {
           offset: const Offset(0, 50),
         ),
       ],
+    );
+  }
+
+  void _confirmDelete(BuildContext context, int postNo) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('삭제 확인'),
+          content: const Text('정말로 삭제하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('아니요'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: const Text('예'),
+              onPressed: () {
+                Get.back();
+                controller.deletefetchData(postNo);
+                Get.off(() => Home());
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

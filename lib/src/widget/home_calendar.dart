@@ -29,7 +29,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
   late CalenderDateController _controller;
   DateTime? _selectedDay;
   DateTime? _focusedDay;
-  String? update_date;
+  String? create_date;
   String targetTime = DateFormat('yyyy-MM').format(DateTime.now());
 
   @override
@@ -87,7 +87,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   bool hasData = calenderdates.any((date) => isSameDay(
-                      selectedDay, DateTime.parse(date.update_date!)));
+                      selectedDay, DateTime.parse(date.create_date!)));
 
                   if (hasData) {
                     Get.to(() => MyPage(selectedDate: selectedDay));
@@ -130,7 +130,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
                   ),
                   markerBuilder: (context, day, events) {
                     bool hasData = calenderdates.any((date) =>
-                        isSameDay(day, DateTime.parse(date.update_date!)));
+                        isSameDay(day, DateTime.parse(date.create_date!)));
 
                     if (hasData) {
                       return Container(

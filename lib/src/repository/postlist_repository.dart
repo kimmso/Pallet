@@ -61,4 +61,28 @@ class PostListRepository {
       throw Exception();
     }
   }
+
+  Future<void> deleteApi(int post_no) async {
+    try {
+      String? accessToken = GetStorage().read('accessToken');
+
+      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
+
+      String deleteUrl = "${ApiUrls.postUrl}/${post_no}";
+
+      final response = await dio.delete(deleteUrl);
+      print(deleteUrl);
+
+      if (response.statusCode == 200) {
+      } else if (response.statusCode == 400) {
+        final errorMessage = response.data['error'];
+        print("삭제하기 실패: $errorMessage");
+      } else {
+        throw Exception("삭제하기 오류");
+      }
+    } catch (e) {
+      print("Error in deleteApi: $e");
+      throw Exception("삭제하기 중 오류 발생");
+    }
+  }
 }
