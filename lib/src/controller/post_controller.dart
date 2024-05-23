@@ -49,7 +49,6 @@ class PostController extends GetxController {
     if (post != null) {
       _posts.value = post;
       return post;
-    } else {
       Get.snackbar(
         "글쓰기 실패",
         ".",
