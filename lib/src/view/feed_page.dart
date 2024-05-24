@@ -36,12 +36,7 @@ class _FeedPageState extends State<FeedPage> {
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Get.off(() => const App());
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: _myFeed(),
     );
