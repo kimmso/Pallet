@@ -111,6 +111,23 @@ class _HomeCalendarState extends State<HomeCalendar> {
                   }
                 },
                 calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) {
+                    bool hasData = calenderdates.any((date) =>
+                        isSameDay(day, DateTime.parse(date.create_date!)));
+
+                    if (hasData) {
+                      return Container(
+                        width: 33,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              Colors.purple.withOpacity(0.2), // 마커의 색상 및 투명도 설정
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
                   dowBuilder: (context, date) {
                     return _dowHeaderStyle(
                       date: TodoDataUtils.convertWeekdayToStringValue(
@@ -128,23 +145,6 @@ class _HomeCalendarState extends State<HomeCalendar> {
                     date: date,
                     color: TodoDataUtils.dayToColor(date, opacity: 0.3),
                   ),
-                  markerBuilder: (context, day, events) {
-                    bool hasData = calenderdates.any((date) =>
-                        isSameDay(day, DateTime.parse(date.create_date!)));
-
-                    if (hasData) {
-                      return Container(
-                        width: 4,
-                        height: 4,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.purple,
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
                 ),
                 onCalendarCreated: widget.onCalendarCreated,
                 onFormatChanged: (format) {},

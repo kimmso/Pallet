@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/app.dart';
 
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/post.dart';
 
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
 
-import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_textfield.dart';
 
 import 'package:get/get.dart';
@@ -33,7 +33,7 @@ class UpdatePage extends GetView<PostController> {
                 print('사진 url 반환 성공');
 
                 controller.changecontentFetchData(post, post_no!);
-                Get.to(() => Home());
+                Get.to(() => App());
               },
               icon: const Icon(Icons.check))
         ],
