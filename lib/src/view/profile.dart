@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
-import 'package:flutter_getx_palette_diary/src/view/profile_modify.dart';
 import 'package:get/get.dart';
 
-class Profile extends GetView<UserController> {
-  const Profile({super.key});
+class Profile extends StatelessWidget {
+  const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,135 +19,140 @@ class Profile extends GetView<UserController> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {
+                Get.find<UserController>().logoutfetchData();
+              },
+              icon: const Icon(Icons.logout_outlined),
+            ),
+          ),
+        ],
       ),
-      body: _body(context),
+      body: GetBuilder<UserController>(
+        builder: (controller) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _profileBox(context, controller),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _postcount(controller),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _myfeed(),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  Widget _body(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _profileBox(context),
-        _profileInformation(),
+  Widget _profileBox(BuildContext context, UserController controller) {
+    double size = MediaQuery.of(context).size.width * 0.25;
+
+    return Row(
+      children: <Widget>[
+        ClipOval(
+          child: controller.isProfileImageSet
+              ? Image.file(
+                  File(controller.profileImagePath.value),
+                  width: size,
+                  height: size,
+                  fit: BoxFit.cover,
+                )
+              : Container(
+                  color: Colors.grey,
+                  width: 80,
+                  height: 80,
+                  child: const Center(
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  ),
+                ),
+        ),
+        const SizedBox(width: 14.0),
+        _miniinfo(controller),
       ],
     );
   }
 
-  Widget _profileBox(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.25;
+  Widget _miniinfo(UserController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          ' ${controller.readName()}',
+          style: const TextStyle(fontSize: 18.0),
+        ),
+        Text(
+          ' ${controller.readId()}',
+          style: const TextStyle(fontSize: 17.0),
+        ),
+      ],
+    );
+  }
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+  Widget _postcount(UserController controller) {
+    return Center(
+      child: Container(
+        width: 300,
+        height: 70, // 높이를 설정
+        margin: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
         child: Row(
-          children: <Widget>[
-            Obx(() {
-              return ClipOval(
-                child: controller.isProfileImageSet
-                    ? Image.file(
-                        File(controller.profileImagePath.value),
-                        width: size,
-                        height: size,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        color: Colors.grey,
-                        width: 80,
-                        height: 80,
-                        child: const Center(
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
-                      ),
-              );
-            }),
-            const SizedBox(width: 14.0),
-            _miniinfo(),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              '총 작성한 글',
+            ),
+            const SizedBox(width: 20), // 텍스트 사이에 간격 추가
+            Container(
+              height: 30, // 선의 높이
+              width: 1, // 선의 너비
+              color: Colors.grey, // 선의 색상
+            ),
+            const SizedBox(width: 20), // 선과 텍스트 사이에 간격 추가
+            const Text('좋아요 수 '),
           ],
         ),
       ),
     );
   }
 
-  Widget _miniinfo() {
-    controller.myinfoFetchData();
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            ' ${controller.readName()}',
-            style: const TextStyle(fontSize: 18.0),
-          ),
-          Text(
-            ' ${controller.readId()}',
-            style: const TextStyle(fontSize: 17.0),
-          ),
-        ],
+  Widget _myfeed() {
+    return Container(
+      height: 400, // GridView가 높이를 가져야 하므로 높이를 지정해야 함
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 1.0,
+          mainAxisSpacing: 1.0,
+        ),
+        itemCount: 9,
+        itemBuilder: (context, index) {
+          return Container(
+            color: const Color.fromARGB(255, 239, 199, 246),
+          );
+        },
       ),
     );
-    // } else {
-    //   return Text('사용자 정보를 불러올 수 없습니다.');
-    // }
   }
-}
-// }
-
-Widget _profileInformation() {
-  final UserController controller = Get.find(); // 컨트롤러 인스턴스 가져오기
-
-  return SingleChildScrollView(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
-            child: GestureDetector(
-                onTap: () {
-                  // controller.pfmgo(controller);
-                },
-                child: TextButton(
-                    onPressed: () {
-                      Get.to(() => ProfileModify);
-                    },
-                    child: const Text(
-                      '내 프로필 수정하기',
-                      style: TextStyle(fontSize: 15.0, color: Colors.black),
-                    ))),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
-            child: TextButton(
-              onPressed: () {
-                controller.logoutfetchData();
-                // Get.to(() => LoginPage());
-                print('로그아웃 성공');
-              },
-              child: const Row(
-                children: [
-                  Icon(Icons.logout, color: Colors.black), // 로그아웃 아이콘
-                  SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조절
-                  Text(
-                    '로그아웃',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }

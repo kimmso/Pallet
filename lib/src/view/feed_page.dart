@@ -38,11 +38,11 @@ class _FeedPageState extends State<FeedPage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: _myFeed(),
+      body: _Feed(),
     );
   }
 
-  Widget _myFeed() {
+  Widget _Feed() {
     return FutureBuilder<List<Feed>?>(
       future: _feedsFuture,
       builder: (context, snapshot) {
