@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_palette_diary/src/app.dart';
 import 'package:flutter_getx_palette_diary/src/controller/feed_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/feed.dart';
-import 'package:get/get.dart';
+import 'package:flutter_getx_palette_diary/src/model/post.dart';
+import 'package:flutter_getx_palette_diary/src/view/detail_page.dart';
+import 'package:flutter_getx_palette_diary/src/view/my_page.dart';
 import 'package:get_storage/get_storage.dart';
 
 class FeedPage extends StatefulWidget {
@@ -69,11 +70,23 @@ class _FeedPageState extends State<FeedPage> {
             itemBuilder: (context, index) {
               if (index < feeds.length) {
                 Feed feed = feeds[index];
-                return Container(
-                  color: Colors.blueGrey,
-                  child: Image.network(
-                    feed.photo_url ?? '',
-                    fit: BoxFit.cover,
+                return GestureDetector(
+                  // GestureDetector 추가
+                  onTap: () {
+                    // onTap 콜백 추가
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPage(), // DetailPage로 이동
+                      ),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.blueGrey,
+                    child: Image.network(
+                      feed.photo_url ?? '',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 );
               } else {
@@ -88,8 +101,6 @@ class _FeedPageState extends State<FeedPage> {
                     if (newData != null && newData.isNotEmpty) {
                       setState(() {
                         feeds.addAll(newData);
-
-                        //
                       });
                     }
                   });

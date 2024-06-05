@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/app.dart';
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
+import 'package:flutter_getx_palette_diary/src/model/feed.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
 import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
-import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/update_page.dart';
 import 'package:get/get.dart';
 
@@ -63,26 +63,46 @@ class MyPage extends GetView<PostListController> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _menuIcon(
-                          context,
-                          onEdit: () {
-                            Get.to(
-                              () => UpdatePage(
-                                photo_url: postlist.photo_url,
-                                content: postlist.content,
-                                post_no: postlist.post_no,
-                              ),
-                              binding: BindingsBuilder(() {
-                                Get.put(PostController(
-                                    repository: PostRepository()));
-                                PostController.to
-                                    .initTextField(postlist.content!);
-                              }),
-                            );
-                          },
-                          onDelete: () {
-                            _confirmDelete(context, postlist.post_no!);
-                          },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Text(
+                                  "좋아요 개수", // 좋아요 개수 표시
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            _menuIcon(
+                              context,
+                              onEdit: () {
+                                Get.to(
+                                  () => UpdatePage(
+                                    photo_url: postlist.photo_url,
+                                    content: postlist.content,
+                                    post_no: postlist.post_no,
+                                  ),
+                                  binding: BindingsBuilder(() {
+                                    Get.put(PostController(
+                                        repository: PostRepository()));
+                                    PostController.to
+                                        .initTextField(postlist.content!);
+                                  }),
+                                );
+                              },
+                              onDelete: () {
+                                _confirmDelete(context, postlist.post_no!);
+                              },
+                            ),
+                          ],
                         ),
                         // 포스트 이미지 표시
                         SizedBox(
