@@ -8,7 +8,7 @@ part of 'feed.dart';
 
 _$FeedImpl _$$FeedImplFromJson(Map<String, dynamic> json) => _$FeedImpl(
       photo_url: json['photo_url'] as String?,
-      post_no: json['post_no'] as int?,
+      post_no: (json['post_no'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$FeedImplToJson(_$FeedImpl instance) =>

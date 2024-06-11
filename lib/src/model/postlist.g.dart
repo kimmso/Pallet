@@ -10,7 +10,7 @@ _$PostListImpl _$$PostListImplFromJson(Map<String, dynamic> json) =>
     _$PostListImpl(
       content: json['content'] as String?,
       photo_url: json['photo_url'] as String?,
-      post_no: json['post_no'] as int?,
+      post_no: (json['post_no'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PostListImplToJson(_$PostListImpl instance) =>

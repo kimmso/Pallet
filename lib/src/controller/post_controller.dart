@@ -113,19 +113,4 @@ class PostController extends GetxController {
 
     repository.changecontentApi(content, post_no);
   }
-
-  Future<Post?> detailfetchData(int post_no) async {
-    final post = await repository.detailApi(post_no);
-    if (post != null) {
-      _posts.value = post;
-      return post;
-    } else {
-      Get.snackbar(
-        "글쓰기 실패",
-        ".",
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 3),
-      );
-    }
-  }
 }

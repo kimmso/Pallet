@@ -77,7 +77,9 @@ class _FeedPageState extends State<FeedPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailPage(), // DetailPage로 이동
+                        builder: (context) =>
+                            DetailPage(post_no: feed.post_no!),
+                        // DetailPage로 이동
                       ),
                     );
                   },
