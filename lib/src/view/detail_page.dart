@@ -16,6 +16,7 @@ class _DetailPageState extends State<DetailPage> {
   late Future<FeedDetail?> _feeddetailsFuture;
   final DetailController controller =
       Get.put(DetailController(repository: DetailRepository()));
+  bool _isLiked = false; // 좋아요 상태를 관리할 변수
 
   @override
   void initState() {
@@ -23,10 +24,19 @@ class _DetailPageState extends State<DetailPage> {
     _feeddetailsFuture = controller.detailfetchData(widget.post_no);
   }
 
+  void _toggleLike() {
+    setState(() {
+      _isLiked = !_isLiked;
+    });
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(User) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('사용자 아이디'),
+      ),
       body: FutureBuilder<FeedDetail?>(
         future: _feeddetailsFuture,
         builder: (context, snapshot) {
@@ -49,7 +59,13 @@ class _DetailPageState extends State<DetailPage> {
       child: Center(
         child: Column(
           children: [
+            Row(
+              children: [
+                _like(),
+              ],
+            ),
             _image(feedDetail.photo_url),
+            _date(feedDetail.create_date),
             const SizedBox(height: 20),
             _content(feedDetail.content),
           ],
@@ -58,24 +74,65 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget _image(String? photo_Url) {
+  Widget _image(String? photoUrl) {
     return Container(
       color: Colors.grey,
       height: 400,
-      width: 350,
-      child: photo_Url != null
-          ? Image.network(photo_Url, fit: BoxFit.cover)
-          : Center(child: Text('No Image')),
+      width: double.infinity,
+      child: photoUrl != null
+          ? Image.network(photoUrl, fit: BoxFit.cover)
+          : Text('No Image'),
     );
   }
 
   Widget _content(String? content) {
-    return Container(
-      color: Colors.grey,
-      height: 100,
-      width: 350,
-      child:
-          content != null ? Text(content) : Center(child: Text('No Content')),
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: content != null
+              ? Text(
+                  content,
+                  style: const TextStyle(fontSize: 16),
+                )
+              : Text('No Content'),
+        ),
+      ),
+    );
+  }
+
+  Widget _like() {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          IconButton(
+            icon: Icon(
+              _isLiked ? Icons.favorite : Icons.favorite_border,
+              color: _isLiked ? Colors.red : null,
+            ),
+            onPressed: _toggleLike,
+          ),
+          const Text(
+            "좋아요 개수", // 좋아요 개수 표시
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _date(String? createDate) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          createDate != null ? '$createDate' : '날짜 정보 없음',
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
     );
   }
 }

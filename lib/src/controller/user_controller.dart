@@ -32,6 +32,9 @@ class UserController extends GetxController {
   TextEditingController get signupPassword => _signupPassword;
   TextEditingController get confirmPassword => _confirmPassword;
 
+  // Rx 변수를 통해 user 객체에 접근할 수 있는 getter 추가
+  User? get user => _users.value;
+
   void fetchData() {
     final user = {
       'id': id.text.toString(),

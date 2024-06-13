@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/bottom_nav_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/feed_controller.dart';
+import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/repository/feed_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/feed_page.dart';
