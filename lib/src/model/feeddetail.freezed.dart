@@ -23,6 +23,9 @@ mixin _$FeedDetail {
   String? get photo_url => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   String? get create_date => throw _privateConstructorUsedError;
+  int? get like_count => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  bool? get like => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +39,13 @@ abstract class $FeedDetailCopyWith<$Res> {
           FeedDetail value, $Res Function(FeedDetail) then) =
       _$FeedDetailCopyWithImpl<$Res, FeedDetail>;
   @useResult
-  $Res call({String? photo_url, String? content, String? create_date});
+  $Res call(
+      {String? photo_url,
+      String? content,
+      String? create_date,
+      int? like_count,
+      String? name,
+      bool? like});
 }
 
 /// @nodoc
@@ -55,6 +64,9 @@ class _$FeedDetailCopyWithImpl<$Res, $Val extends FeedDetail>
     Object? photo_url = freezed,
     Object? content = freezed,
     Object? create_date = freezed,
+    Object? like_count = freezed,
+    Object? name = freezed,
+    Object? like = freezed,
   }) {
     return _then(_value.copyWith(
       photo_url: freezed == photo_url
@@ -69,6 +81,18 @@ class _$FeedDetailCopyWithImpl<$Res, $Val extends FeedDetail>
           ? _value.create_date
           : create_date // ignore: cast_nullable_to_non_nullable
               as String?,
+      like_count: freezed == like_count
+          ? _value.like_count
+          : like_count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      like: freezed == like
+          ? _value.like
+          : like // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -81,7 +105,13 @@ abstract class _$$FeedDetailImplCopyWith<$Res>
       __$$FeedDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? photo_url, String? content, String? create_date});
+  $Res call(
+      {String? photo_url,
+      String? content,
+      String? create_date,
+      int? like_count,
+      String? name,
+      bool? like});
 }
 
 /// @nodoc
@@ -98,6 +128,9 @@ class __$$FeedDetailImplCopyWithImpl<$Res>
     Object? photo_url = freezed,
     Object? content = freezed,
     Object? create_date = freezed,
+    Object? like_count = freezed,
+    Object? name = freezed,
+    Object? like = freezed,
   }) {
     return _then(_$FeedDetailImpl(
       photo_url: freezed == photo_url
@@ -112,6 +145,18 @@ class __$$FeedDetailImplCopyWithImpl<$Res>
           ? _value.create_date
           : create_date // ignore: cast_nullable_to_non_nullable
               as String?,
+      like_count: freezed == like_count
+          ? _value.like_count
+          : like_count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      like: freezed == like
+          ? _value.like
+          : like // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -122,7 +167,10 @@ class _$FeedDetailImpl implements _FeedDetail {
   _$FeedDetailImpl(
       {required this.photo_url,
       required this.content,
-      required this.create_date});
+      required this.create_date,
+      required this.like_count,
+      required this.name,
+      required this.like});
 
   factory _$FeedDetailImpl.fromJson(Map<String, dynamic> json) =>
       _$$FeedDetailImplFromJson(json);
@@ -133,10 +181,16 @@ class _$FeedDetailImpl implements _FeedDetail {
   final String? content;
   @override
   final String? create_date;
+  @override
+  final int? like_count;
+  @override
+  final String? name;
+  @override
+  final bool? like;
 
   @override
   String toString() {
-    return 'FeedDetail(photo_url: $photo_url, content: $content, create_date: $create_date)';
+    return 'FeedDetail(photo_url: $photo_url, content: $content, create_date: $create_date, like_count: $like_count, name: $name, like: $like)';
   }
 
   @override
@@ -148,12 +202,17 @@ class _$FeedDetailImpl implements _FeedDetail {
                 other.photo_url == photo_url) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.create_date, create_date) ||
-                other.create_date == create_date));
+                other.create_date == create_date) &&
+            (identical(other.like_count, like_count) ||
+                other.like_count == like_count) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.like, like) || other.like == like));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, photo_url, content, create_date);
+  int get hashCode => Object.hash(
+      runtimeType, photo_url, content, create_date, like_count, name, like);
 
   @JsonKey(ignore: true)
   @override
@@ -173,7 +232,10 @@ abstract class _FeedDetail implements FeedDetail {
   factory _FeedDetail(
       {required final String? photo_url,
       required final String? content,
-      required final String? create_date}) = _$FeedDetailImpl;
+      required final String? create_date,
+      required final int? like_count,
+      required final String? name,
+      required final bool? like}) = _$FeedDetailImpl;
 
   factory _FeedDetail.fromJson(Map<String, dynamic> json) =
       _$FeedDetailImpl.fromJson;
@@ -184,6 +246,12 @@ abstract class _FeedDetail implements FeedDetail {
   String? get content;
   @override
   String? get create_date;
+  @override
+  int? get like_count;
+  @override
+  String? get name;
+  @override
+  bool? get like;
   @override
   @JsonKey(ignore: true)
   _$$FeedDetailImplCopyWith<_$FeedDetailImpl> get copyWith =>
