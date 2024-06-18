@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/detail_controller.dart';
+import 'package:flutter_getx_palette_diary/src/controller/like_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/feeddetail.dart';
 import 'package:flutter_getx_palette_diary/src/repository/detail_repository.dart';
+import 'package:flutter_getx_palette_diary/src/repository/like_repository.dart';
 import 'package:get/get.dart';
 
 class DetailPage extends StatefulWidget {
@@ -14,24 +16,32 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   late Future<FeedDetail?> _feeddetailsFuture;
-  final DetailController controller =
+  final DetailController detailController =
       Get.put(DetailController(repository: DetailRepository()));
+  final LikeController likeController =
+      Get.put(LikeController(repository: LikeRepository()));
   bool _isLiked = false; // 좋아요 상태를 관리할 변수
 
   @override
   void initState() {
     super.initState();
-    _feeddetailsFuture = controller.detailfetchData(widget.post_no);
+    _feeddetailsFuture = detailController.detailfetchData(widget.post_no);
+    likeController.pluslikefetchData(widget.post_no);
   }
 
-  void _toggleLike() {
-    setState(() {
-      _isLiked = !_isLiked;
-    });
+  void _toggleLike() async {
+    if (likeController.isLiked.value) {
+      await likeController.minuslikefetchData(widget.post_no);
+    } else {
+      await likeController.pluslikefetchData(widget.post_no);
+    }
+
+    // 좋아요 상태를 반전시켜 업데이트합니다.
+    // likeController.isLiked.value = !likeController.isLiked.value;
   }
 
   @override
-  Widget build(User) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -107,17 +117,24 @@ class _DetailPageState extends State<DetailPage> {
       padding: EdgeInsets.all(8.0),
       child: Row(
         children: [
-          IconButton(
-            icon: Icon(
-              _isLiked ? Icons.favorite : Icons.favorite_border,
-              color: _isLiked ? Colors.red : null,
-            ),
-            onPressed: _toggleLike,
-          ),
-          const Text(
-            "좋아요 개수", // 좋아요 개수 표시
-            style: TextStyle(fontSize: 16),
-          ),
+          Obx(() {
+            bool isLiked = likeController.isLiked.value;
+            return IconButton(
+              icon: Icon(
+                isLiked ? Icons.favorite : Icons.favorite_border,
+                color: isLiked ? Colors.red : null,
+              ),
+              onPressed: _toggleLike,
+// 여기에서 실행이 되는 코드를 짜줘
+            );
+          }),
+          Obx(() {
+            int like_count = likeController.feeddetails.value?.like_count ?? 0;
+            return Text(
+              "$like_count", // 좋아요 개수 표시
+              style: TextStyle(fontSize: 16),
+            );
+          }),
         ],
       ),
     );

@@ -3,12 +3,17 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_getx_palette_diary/src/model/feeddetail.dart';
 import 'package:flutter_getx_palette_diary/src/utils/apiurl.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DetailRepository {
   final dio = Dio();
   Future<FeedDetail?> detailApi(int post_no) async {
     try {
       dio.options.contentType = 'application/json';
+
+      String? accessToken = GetStorage().read('accessToken');
+
+      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
 
       String detailUrl = "${ApiUrls.detailUrl}/${post_no}";
       print(detailUrl);

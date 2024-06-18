@@ -13,12 +13,11 @@ class DetailController extends GetxController {
   Future<FeedDetail?> detailfetchData(int post_no) async {
     final feeddetail = await repository.detailApi(post_no);
     if (feeddetail != null) {
-      print(2222);
       _feeddetails.value = feeddetail;
-      print(1111);
+
       return feeddetail;
     } else {
-      print(333);
+      print(222);
     }
   }
 }
