@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'feeddetail.freezed.dart';
@@ -15,6 +13,7 @@ class FeedDetail with _$FeedDetail {
     required String? name,
     required bool? like,
   }) = _FeedDetail;
+
   factory FeedDetail.fromJson(Map<String, dynamic> json) =>
       _$FeedDetailFromJson(json);
 }

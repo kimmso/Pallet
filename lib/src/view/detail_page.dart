@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/detail_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/like_controller.dart';
-import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/feeddetail.dart';
 import 'package:flutter_getx_palette_diary/src/repository/detail_repository.dart';
 import 'package:flutter_getx_palette_diary/src/repository/like_repository.dart';
@@ -9,7 +8,7 @@ import 'package:get/get.dart';
 
 class DetailPage extends StatefulWidget {
   final int post_no;
-  const DetailPage({super.key, required this.post_no});
+  const DetailPage({Key? key, required this.post_no}) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -21,7 +20,6 @@ class _DetailPageState extends State<DetailPage> {
       Get.put(DetailController(repository: DetailRepository()));
   final LikeController likeController =
       Get.put(LikeController(repository: LikeRepository()));
-  bool _isLiked = false; // 좋아요 상태를 관리할 변수
 
   @override
   void initState() {
@@ -36,9 +34,6 @@ class _DetailPageState extends State<DetailPage> {
     } else {
       await likeController.pluslikefetchData(widget.post_no);
     }
-
-    // 좋아요 상태를 반전시켜 업데이트합니다.
-    // likeController.isLiked.value = !likeController.isLiked.value;
   }
 
   @override
@@ -85,7 +80,8 @@ class _DetailPageState extends State<DetailPage> {
           children: [
             Row(
               children: [
-                _like(),
+                _likeButton(),
+                _likeCount(),
               ],
             ),
             _image(feedDetail.photo_url),
@@ -126,32 +122,31 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget _like() {
+  Widget _likeButton() {
     return Padding(
       padding: EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Obx(() {
-            bool isLiked = likeController.isLiked.value;
-            return IconButton(
-              icon: Icon(
-                isLiked ? Icons.favorite : Icons.favorite_border,
-                color: isLiked ? Colors.red : null,
-              ),
-              onPressed: _toggleLike,
-// 여기에서 실행이 되는 코드를 짜줘
-            );
-          }),
-          Obx(() {
-            int like_count = likeController.feeddetails.value?.like_count ?? 0;
-            return Text(
-              "$like_count", // 좋아요 개수 표시
-              style: TextStyle(fontSize: 16),
-            );
-          }),
-        ],
-      ),
+      child: Obx(() {
+        bool isLiked = likeController.isLiked.value;
+        return IconButton(
+          icon: Icon(
+            isLiked ? Icons.favorite : Icons.favorite_border,
+            color: isLiked ? Colors.red : null,
+          ),
+          onPressed: _toggleLike,
+        );
+      }),
     );
+  }
+
+  Widget _likeCount() {
+    return Obx(() {
+      int like_count =
+          likeController.like_count.value; // likeCount 변수를 사용하여 좋아요 개수를 가져옵니다.
+      return Text(
+        '$like_count', // 좋아요 개수 표시
+        style: TextStyle(fontSize: 16),
+      );
+    });
   }
 
   Widget _date(String? createDate) {
@@ -169,7 +164,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Widget _username(String? name) {
     return Text(
-      ' ${name}님의 게시글',
+      '$name 님의 게시글',
       style: const TextStyle(fontSize: 20.0),
     );
   }
