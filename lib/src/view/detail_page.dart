@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/detail_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/like_controller.dart';
+import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/model/feeddetail.dart';
 import 'package:flutter_getx_palette_diary/src/repository/detail_repository.dart';
 import 'package:flutter_getx_palette_diary/src/repository/like_repository.dart';
@@ -45,7 +46,20 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('사용자 아이디'),
+        title: FutureBuilder<FeedDetail?>(
+          future: _feeddetailsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text('Loading...');
+            } else if (snapshot.hasError) {
+              return Text('Error');
+            } else if (!snapshot.hasData || snapshot.data == null) {
+              return Text('No data found');
+            } else {
+              return _username(snapshot.data!.name);
+            }
+          },
+        ),
       ),
       body: FutureBuilder<FeedDetail?>(
         future: _feeddetailsFuture,
@@ -150,6 +164,13 @@ class _DetailPageState extends State<DetailPage> {
           style: TextStyle(fontSize: 16),
         ),
       ),
+    );
+  }
+
+  Widget _username(String? name) {
+    return Text(
+      ' ${name}님의 게시글',
+      style: const TextStyle(fontSize: 20.0),
     );
   }
 }

@@ -19,7 +19,7 @@ class LikeController extends GetxController {
     if (response == true) {
       isLiked.value = true; // 좋아요 상태 변경
     } else {
-      print(222);
+      print("플러스 실패");
     }
   }
 
@@ -28,7 +28,7 @@ class LikeController extends GetxController {
     if (response == true) {
       isLiked.value = false; // 좋아요 상태 변경
     } else {
-      print(222);
+      print('마이너스 실패');
     }
   }
 }
