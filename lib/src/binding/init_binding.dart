@@ -2,12 +2,14 @@ import 'package:flutter_getx_palette_diary/src/controller/bottom_nav_controller.
 import 'package:flutter_getx_palette_diary/src/controller/calender_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/feed_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/home_controller.dart';
+import 'package:flutter_getx_palette_diary/src/controller/myprofil_controller.dart';
 
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/repository/calender_repository.dart';
 
 import 'package:flutter_getx_palette_diary/src/repository/feed_repository.dart';
+import 'package:flutter_getx_palette_diary/src/repository/myprofil_repository.dart';
 import 'package:flutter_getx_palette_diary/src/repository/postlist_repository.dart';
 import 'package:flutter_getx_palette_diary/src/repository/user_repository.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ class InitBinding implements Bindings {
     Get.put(HomeController());
     // Get.put(PostController(repository: PostRepository()));
     Get.put(UserController(repository: UserRepository()));
+    // Get.put(MyProfilController(repository: MyProfilRepository()));
     Get.put(FeedController(repository: FeedRepository()));
     Get.put(PostListController(repository: PostListRepository()));
     Get.put(CalenderDateController(repository: CalenderDateRepository()));

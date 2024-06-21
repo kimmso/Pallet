@@ -78,37 +78,6 @@ class UserRepository {
     }
   }
 
-  Future<User?> myinfoApi() async {
-    try {
-      String? accessToken = GetStorage().read('accessToken');
-      print(accessToken);
-      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
-      final response = await dio.get(ApiUrls.myinfoUrl);
-
-      if (response.statusCode == 200) {
-        return User.fromJson(response.data);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      throw Exception();
-    }
-  }
-
-  Future<void> putMyinfos(Map<String, dynamic> json) async {
-    try {
-      dio.put(ApiUrls.myinfoUrl, data: json).then((response) {
-        if (response.statusCode == 200) {
-        } else {
-          // exception
-        }
-        return User.fromJson(response.data);
-      });
-    } catch (e) {
-      throw Exception();
-    }
-  }
-
   Future<void> logoutApi() async {
     try {
       String? accessToken = GetStorage().read('accessToken');

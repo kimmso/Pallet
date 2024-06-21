@@ -77,11 +77,6 @@ class HomeController extends GetxController {
     } else {}
   }
 
-  // 프로필 수정 페이지로 이동
-  void pfmgo(HomeController controller) {
-    Get.to(() => ProfileModify(controller));
-  }
-
   void updateSelectedDay(DateTime? selectedDay) {
     this.selectedDay.value = selectedDay;
     if (selectedDay != null) {

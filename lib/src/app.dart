@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/bottom_nav_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/feed_controller.dart';
+import 'package:flutter_getx_palette_diary/src/controller/myprofil_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/repository/feed_repository.dart';
+import 'package:flutter_getx_palette_diary/src/repository/myprofil_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/home_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/feed_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/profile.dart';
@@ -59,7 +61,9 @@ class App extends GetView<BottomNavController> {
       children: [
         Home(),
         FeedPage(controller: feedController),
-        const Profile(),
+        Profile(binding: BindingsBuilder(() {
+          Get.put(MyProfilController(repository: MyProfilRepository()));
+        }))
       ],
     );
   }

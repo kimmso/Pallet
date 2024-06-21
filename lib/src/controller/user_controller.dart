@@ -86,48 +86,6 @@ class UserController extends GetxController {
     repository.putSignups(signup);
   }
 
-  Future<User?> myinfoFetchData() async {
-    try {
-      // repository.myinfoApi()가 Future<User?>를 반환하므로 await을 사용하여 비동기 호출
-      repository.myinfoApi().then((user) async {
-        await GetStorage().write('name', user?.name);
-        await GetStorage().write('id', user?.id);
-
-        _users.value = user;
-
-        print(user);
-
-        if (user != null) {
-          print("user : $user");
-          _users.value = user;
-          String? id = user.id ?? '';
-          String? name = user.name ?? '';
-
-          _id.text = user.id ?? '';
-          _name.text = user.name ?? '';
-
-          return user;
-        } else {
-          // 예외 처리: user가 null인 경우
-          print('User 정보를 가져오는 데 문제가 발생했습니다.');
-          return null;
-        }
-      });
-    } catch (e) {
-      // Dio 오류 또는 다른 예외 처리
-      print('User 정보를 가져오는 도중 오류가 발생했습니다: $e');
-      return null;
-    }
-  }
-
-  void myinfoPutData() {
-    final myinfo = {
-      'id': _id.value.text,
-      'name': _name.value.text,
-    };
-    repository.putMyinfos(myinfo);
-  }
-
   void logoutfetchData() {
     repository.logoutApi();
   }
@@ -162,14 +120,6 @@ class UserController extends GetxController {
 // App.dart 화면으로 이동
   void moveToApp() {
     Get.to(() => const App(), binding: InitBinding());
-  }
-
-  String? readName() {
-    return GetStorage().read('name');
-  }
-
-  String? readId() {
-    return GetStorage().read('id');
   }
 
   bool get isProfileImageSet => profileImagePath.value.isNotEmpty;
