@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/model/feed.dart';
+import 'package:flutter_getx_palette_diary/src/model/post.dart';
 import 'package:get/get.dart';
 import 'package:flutter_getx_palette_diary/src/controller/myprofil_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
@@ -23,7 +25,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    _myprofilFuture = myprofilController.myinfoFetchData();
+    _myprofilFuture = myprofilController.myinfofetchData();
   }
 
   @override
@@ -75,7 +77,7 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(height: 20),
                         _postcount(profile),
                         const SizedBox(height: 20),
-                        _myfeed(),
+                        _myfeed(profile.myPost), // myPost 리스트를 전달
                       ],
                     ),
                   ),
@@ -126,11 +128,11 @@ class _ProfileState extends State<Profile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'profile.name',
+          '${profile.name}',
           style: const TextStyle(fontSize: 18.0),
         ),
         Text(
-          'profile.id',
+          '${profile.id}',
           style: const TextStyle(fontSize: 17.0),
         ),
       ],
@@ -140,8 +142,8 @@ class _ProfileState extends State<Profile> {
   Widget _postcount(MyProfil myprofile) {
     return Center(
       child: Container(
-        width: 300,
-        height: 70,
+        width: 400,
+        height: 78,
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -151,24 +153,38 @@ class _ProfileState extends State<Profile> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              myprofile.total_post_count.toString(),
+            Row(
+              children: [
+                const Icon(Icons.edit),
+                // Text('내가 쓴 글'),
+                Text(
+                  myprofile.total_post_count.toString(),
+                ),
+              ],
             ),
-            const SizedBox(width: 20),
+            const Spacer(), // 요소 사이의 간격을 균등하게 조정
             Container(
               height: 30,
               width: 1,
               color: Colors.grey,
             ),
-            const SizedBox(width: 20),
-            Text(myprofile.total_like_count.toString()),
+            const Spacer(), // 요소 사이의 간격을 균등하게 조정
+            Column(
+              children: [
+                const Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+                Text(myprofile.total_like_count.toString()),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _myfeed() {
+  Widget _myfeed(List<Feed> myPost) {
     return Container(
       height: 400,
       child: GridView.builder(
@@ -177,10 +193,28 @@ class _ProfileState extends State<Profile> {
           crossAxisSpacing: 1.0,
           mainAxisSpacing: 1.0,
         ),
-        itemCount: 9,
+        itemCount: myPost.length,
         itemBuilder: (context, index) {
+          String? photoUrl = myPost[index].photo_url;
           return Container(
-            color: const Color.fromARGB(255, 239, 199, 246),
+            decoration: BoxDecoration(
+              image: photoUrl != null
+                  ? DecorationImage(
+                      image: NetworkImage(photoUrl),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
+              color: photoUrl == null ? Colors.grey : null,
+            ),
+            child: photoUrl == null
+                ? const Center(
+                    child: Icon(
+                      Icons.image_not_supported,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  )
+                : null,
           );
         },
       ),

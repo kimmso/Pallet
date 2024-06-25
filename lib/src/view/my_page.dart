@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 class MyPage extends GetView<PostListController> {
   final DateTime selectedDate;
 
-  const MyPage({super.key, required this.selectedDate});
+  const MyPage({Key? key, required this.selectedDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,103 +35,99 @@ class MyPage extends GetView<PostListController> {
   Widget _body() {
     String targetTime =
         "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FutureBuilder(
-            future: controller.postlistFetchData(targetTime),
-            builder: (context, AsyncSnapshot<List<PostList>?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: const Text('데이터를 불러오는 중 오류가 발생했습니다.'),
-                );
-              } else {
-                List<PostList>? postList = snapshot.data;
-                if (postList == null || postList.isEmpty) {
-                  return const Center(
-                    child: Text('데이터 없음'),
-                  );
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: postList.map((postlist) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                Text(
-                                  "좋아요 개수", // 좋아요 개수 표시
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            _menuIcon(
-                              context,
-                              onEdit: () {
-                                Get.to(
-                                  () => UpdatePage(
-                                    photo_url: postlist.photo_url,
-                                    content: postlist.content,
-                                    post_no: postlist.post_no,
-                                  ),
-                                  binding: BindingsBuilder(() {
-                                    Get.put(PostController(
-                                        repository: PostRepository()));
-                                    PostController.to
-                                        .initTextField(postlist.content!);
-                                  }),
-                                );
-                              },
-                              onDelete: () {
-                                _confirmDelete(context, postlist.post_no!);
-                              },
-                            ),
-                          ],
-                        ),
-                        // 포스트 이미지 표시
-                        SizedBox(
-                          height: 400,
-                          width: double.infinity,
-                          child: Image.network(
-                            postlist.photo_url ?? '',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        // 포스트 내용을 코멘트 쓰는 구간에 표시
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            postlist.content ?? '', // 포스트 내용
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    );
-                  }).toList(),
-                );
-              }
+    return FutureBuilder(
+      future: controller.postlistFetchData(targetTime),
+      builder: (context, AsyncSnapshot<List<PostList>?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('데이터를 불러오는 중 오류가 발생했습니다.'),
+          );
+        } else {
+          List<PostList>? postList = snapshot.data;
+          if (postList == null || postList.isEmpty) {
+            return Center(
+              child: Text('데이터 없음'),
+            );
+          }
+          return ListView.builder(
+            itemCount: postList.length,
+            itemBuilder: (context, index) {
+              PostList postlist = postList[index];
+              return _buildPostItem(postlist);
             },
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildPostItem(PostList postlist) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                ),
+                Text(
+                  "${postlist.like_count ?? 0}", // 좋아요 개수 표시
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            _menuIcon(
+              Get.context!,
+              onEdit: () {
+                Get.to(
+                  () => UpdatePage(
+                    photo_url: postlist.photo_url,
+                    content: postlist.content,
+                    post_no: postlist.post_no,
+                  ),
+                  binding: BindingsBuilder(() {
+                    Get.put(PostController(repository: PostRepository()));
+                    PostController.to.initTextField(postlist.content!);
+                  }),
+                );
+              },
+              onDelete: () {
+                _confirmDelete(Get.context!, postlist.post_no!);
+              },
+            ),
+          ],
+        ),
+        // 포스트 이미지 표시
+        SizedBox(
+          height: 400,
+          width: double.infinity,
+          child: Image.network(
+            postlist.photo_url ?? '',
+            fit: BoxFit.cover,
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        // 포스트 내용을 코멘트 쓰는 구간에 표시
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            postlist.content ?? '', // 포스트 내용
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 
