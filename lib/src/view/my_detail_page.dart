@@ -7,15 +7,15 @@ import 'package:flutter_getx_palette_diary/src/repository/detail_repository.dart
 import 'package:flutter_getx_palette_diary/src/repository/like_repository.dart';
 import 'package:get/get.dart';
 
-class DetailPage extends StatefulWidget {
+class MydetailPage extends StatefulWidget {
   final int post_no;
-  const DetailPage({Key? key, required this.post_no}) : super(key: key);
+  const MydetailPage({Key? key, required this.post_no}) : super(key: key);
 
   @override
-  _DetailPageState createState() => _DetailPageState();
+  _MyDetailPageState createState() => _MyDetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _MyDetailPageState extends State<MydetailPage> {
   late Future<FeedDetail?> _feeddetailsFuture;
   final DetailController detailController =
       Get.put(DetailController(repository: DetailRepository()));
@@ -81,7 +81,6 @@ class _DetailPageState extends State<DetailPage> {
           children: [
             Row(
               children: [
-                _likeButton(),
                 _likeCount(),
               ],
             ),
@@ -123,29 +122,25 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget _likeButton() {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Obx(() {
-        bool isLiked = likeController.isLiked.value;
-        return IconButton(
-          icon: Icon(
-            isLiked ? Icons.favorite : Icons.favorite_border,
-            color: isLiked ? Colors.red : null,
-          ),
-          onPressed: _toggleLike,
-        );
-      }),
-    );
-  }
-
   Widget _likeCount() {
     return Obx(() {
       int like_count =
           likeController.like_count.value; // likeCount 변수를 사용하여 좋아요 개수를 가져옵니다.
-      return Text(
-        '$like_count', // 좋아요 개수 표시
-        style: TextStyle(fontSize: 16),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.favorite,
+              color: Colors.red,
+            ),
+          ),
+          Text(
+            '$like_count', // 좋아요 개수 표시
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
       );
     });
   }

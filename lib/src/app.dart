@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_getx_palette_diary/src/controller/bottom_nav_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/feed_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/myprofil_controller.dart';

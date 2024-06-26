@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/model/feed.dart';
-import 'package:flutter_getx_palette_diary/src/model/post.dart';
+import 'package:flutter_getx_palette_diary/src/view/my_detail_page.dart';
+
 import 'package:get/get.dart';
 import 'package:flutter_getx_palette_diary/src/controller/myprofil_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
@@ -91,7 +92,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _profileBox(BuildContext context, MyProfil profile) {
-    double size = MediaQuery.of(context).size.width * 0.25;
+    double size = 100; // 고정된 크기 설정
     UserController controller = Get.find<UserController>();
 
     return Row(
@@ -118,7 +119,10 @@ class _ProfileState extends State<Profile> {
                 ),
         ),
         const SizedBox(width: 14.0),
-        _miniinfo(profile),
+        Container(
+          width: 200, // 고정된 너비 설정
+          child: _miniinfo(profile),
+        ),
       ],
     );
   }
@@ -142,7 +146,7 @@ class _ProfileState extends State<Profile> {
   Widget _postcount(MyProfil myprofile) {
     return Center(
       child: Container(
-        width: 400,
+        width: 400, // 고정된 너비 설정
         height: 78,
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
@@ -164,7 +168,7 @@ class _ProfileState extends State<Profile> {
             ),
             const Spacer(), // 요소 사이의 간격을 균등하게 조정
             Container(
-              height: 30,
+              height: 40,
               width: 1,
               color: Colors.grey,
             ),
@@ -186,7 +190,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _myfeed(List<Feed> myPost) {
     return Container(
-      height: 400,
+      height: 400, // 고정된 높이 설정
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
@@ -195,26 +199,34 @@ class _ProfileState extends State<Profile> {
         ),
         itemCount: myPost.length,
         itemBuilder: (context, index) {
-          String? photoUrl = myPost[index].photo_url;
-          return Container(
-            decoration: BoxDecoration(
-              image: photoUrl != null
-                  ? DecorationImage(
-                      image: NetworkImage(photoUrl),
-                      fit: BoxFit.cover,
+          Feed feed = myPost[index]; // myPost 리스트에서 Feed 객체 가져오기
+          String? photoUrl = feed.photo_url;
+
+          return GestureDetector(
+            onTap: () {
+              // 원하는 페이지로 이동하는 코드 추가
+              Get.to(() => MydetailPage(post_no: feed.post_no!));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                image: photoUrl != null
+                    ? DecorationImage(
+                        image: NetworkImage(photoUrl),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+                color: photoUrl == null ? Colors.grey : null,
+              ),
+              child: photoUrl == null
+                  ? const Center(
+                      child: Icon(
+                        Icons.image_not_supported,
+                        color: Colors.white,
+                        size: 40,
+                      ),
                     )
                   : null,
-              color: photoUrl == null ? Colors.grey : null,
             ),
-            child: photoUrl == null
-                ? const Center(
-                    child: Icon(
-                      Icons.image_not_supported,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                  )
-                : null,
           );
         },
       ),
