@@ -42,17 +42,7 @@ class _ProfileState extends State<Profile> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              onPressed: () {
-                Get.find<UserController>().logoutfetchData();
-              },
-              icon: const Icon(Icons.logout_outlined),
-            ),
-          ),
-        ],
+        actions: [_profilmenu()],
       ),
       body: FutureBuilder<MyProfil?>(
         future: _myprofilFuture,
@@ -157,28 +147,36 @@ class _ProfileState extends State<Profile> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
+            Column(
               children: [
-                const Icon(Icons.edit),
-                // Text('내가 쓴 글'),
+                // const Icon(Icons.edit),
+                Text('내가 쓴 글'),
                 Text(
                   myprofile.total_post_count.toString(),
                 ),
               ],
             ),
-            const Spacer(), // 요소 사이의 간격을 균등하게 조정
+            SizedBox(
+              width: 30,
+            ),
+            // const Spacer(), // 요소 사이의 간격을 균등하게 조정
             Container(
               height: 40,
               width: 1,
               color: Colors.grey,
             ),
-            const Spacer(), // 요소 사이의 간격을 균등하게 조정
+            SizedBox(
+              width: 30,
+            ),
+            // const Spacer(), // 요소 사이의 간격을 균등하게 조정
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                ),
+                // const Icon(
+                //   Icons.favorite,
+                //   color: Colors.red,
+                Text('좋아요 수'),
+
                 Text(myprofile.total_like_count.toString()),
               ],
             ),
@@ -230,6 +228,57 @@ class _ProfileState extends State<Profile> {
           );
         },
       ),
+    );
+  }
+
+  Widget _profilmenu() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PopupMenuButton(
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: const Row(
+                  children: [
+                    Icon(Icons.settings_outlined),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('정보 수정하기'),
+                  ],
+                ),
+                onTap: () => {},
+              ),
+              PopupMenuItem(
+                child: const Row(
+                  children: [
+                    Icon(Icons.logout_outlined),
+                    SizedBox(width: 8),
+                    Text('로그아웃'),
+                  ],
+                ),
+                onTap: () => {Get.find<UserController>().logoutfetchData()},
+              ),
+              PopupMenuItem(
+                child: const Row(
+                  children: [
+                    Icon(Icons.warning_outlined),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('탈퇴하기'),
+                  ],
+                ),
+                onTap: () => {},
+              ),
+            ];
+          },
+          icon: const Icon(Icons.more_vert),
+          offset: const Offset(0, 50),
+          color: Colors.white, // 메뉴 배경색 변경
+        ),
+      ],
     );
   }
 }

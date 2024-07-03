@@ -140,17 +140,34 @@ class MyPage extends GetView<PostListController> {
           itemBuilder: (context) {
             return [
               PopupMenuItem(
-                child: const Text('수정하기'),
+                child: const Row(
+                  children: [
+                    Icon(Icons.edit_outlined),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('수정하기'),
+                  ],
+                ),
                 onTap: () => Future.microtask(() => onEdit()),
               ),
               PopupMenuItem(
-                child: const Text('삭제하기'),
+                child: const Row(
+                  children: [
+                    Icon(Icons.delete_outline),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('삭제하기'),
+                  ],
+                ),
                 onTap: () => Future.microtask(() => onDelete()),
               ),
             ];
           },
           icon: const Icon(Icons.more_vert),
           offset: const Offset(0, 50),
+          color: Colors.white, // 메뉴 배경색 변경
         ),
       ],
     );
