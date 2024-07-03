@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/model/feed.dart';
+import 'package:flutter_getx_palette_diary/src/view/info_modify.dart';
 import 'package:flutter_getx_palette_diary/src/view/my_detail_page.dart';
 
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_getx_palette_diary/src/model/myprofil.dart';
 import 'package:flutter_getx_palette_diary/src/repository/myprofil_repository.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key, required this.binding}) : super(key: key);
+  Profile({Key? key, required this.binding}) : super(key: key);
 
   final BindingsBuilder binding;
 
@@ -150,13 +151,13 @@ class _ProfileState extends State<Profile> {
             Column(
               children: [
                 // const Icon(Icons.edit),
-                Text('내가 쓴 글'),
+                const Text('내가 쓴 글'),
                 Text(
                   myprofile.total_post_count.toString(),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             // const Spacer(), // 요소 사이의 간격을 균등하게 조정
@@ -165,7 +166,7 @@ class _ProfileState extends State<Profile> {
               width: 1,
               color: Colors.grey,
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             // const Spacer(), // 요소 사이의 간격을 균등하게 조정
@@ -175,7 +176,7 @@ class _ProfileState extends State<Profile> {
                 // const Icon(
                 //   Icons.favorite,
                 //   color: Colors.red,
-                Text('좋아요 수'),
+                const Text('좋아요 수'),
 
                 Text(myprofile.total_like_count.toString()),
               ],
@@ -232,53 +233,131 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _profilmenu() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        PopupMenuButton(
-          itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: const Row(
+    return Form(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: const Row(
+                    children: [
+                      Icon(Icons.settings_outlined),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text('정보 수정하기'),
+                    ],
+                  ),
+                  onTap: () => _showPasswordBottomSheet(context),
+                ),
+                PopupMenuItem(
+                  child: const Row(
+                    children: [
+                      Icon(Icons.logout_outlined),
+                      SizedBox(width: 8),
+                      Text('로그아웃'),
+                    ],
+                  ),
+                  onTap: () => {Get.find<UserController>().logoutfetchData()},
+                ),
+                PopupMenuItem(
+                  child: const Row(
+                    children: [
+                      Icon(Icons.warning_outlined),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text('탈퇴하기'),
+                    ],
+                  ),
+                  onTap: () => {},
+                ),
+              ];
+            },
+            icon: const Icon(Icons.more_vert),
+            offset: const Offset(0, 50),
+            color: Colors.white, // 메뉴 배경색 변경
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPasswordBottomSheet(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+    TextEditingController _passwordController = TextEditingController();
+    UserController controller = Get.find<UserController>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16,
+            right: 16,
+            top: 16,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '비밀번호 입력',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: '비밀번호',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '비밀번호를 입력하세요.';
+                    }
+                    // 이 부분에 실제 사용자 비밀번호와 비교 로직을 넣어야 합니다.
+                    // 예시로 사용자 컨트롤러의 비밀번호를 가져와 비교합니다.
+                    String correctPassword = controller.password.text;
+                    if (value != correctPassword) {
+                      return '비밀번호가 틀립니다.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(Icons.settings_outlined),
-                    SizedBox(
-                      width: 8,
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('취소'),
                     ),
-                    Text('정보 수정하기'),
-                  ],
-                ),
-                onTap: () => {},
-              ),
-              PopupMenuItem(
-                child: const Row(
-                  children: [
-                    Icon(Icons.logout_outlined),
-                    SizedBox(width: 8),
-                    Text('로그아웃'),
-                  ],
-                ),
-                onTap: () => {Get.find<UserController>().logoutfetchData()},
-              ),
-              PopupMenuItem(
-                child: const Row(
-                  children: [
-                    Icon(Icons.warning_outlined),
-                    SizedBox(
-                      width: 8,
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.of(context).pop();
+                          Get.to(() => const InfoModifyPage());
+                        }
+                      },
+                      child: const Text('확인'),
                     ),
-                    Text('탈퇴하기'),
                   ],
                 ),
-                onTap: () => {},
-              ),
-            ];
-          },
-          icon: const Icon(Icons.more_vert),
-          offset: const Offset(0, 50),
-          color: Colors.white, // 메뉴 배경색 변경
-        ),
-      ],
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
