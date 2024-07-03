@@ -16,6 +16,7 @@ class BottomNavController extends GetxController {
     switch (page) {
       case Page.HOME:
       case Page.SEARCH:
+        
       case Page.UPLOAD:
         moveToPage(value);
 
