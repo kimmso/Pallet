@@ -6,7 +6,6 @@ import 'package:flutter_getx_palette_diary/src/repository/user_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/login_page.dart';
 import 'package:flutter_getx_palette_diary/src/view/signup_page.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class UserController extends GetxController {
   final Rxn<User> _users = Rxn<User>();

@@ -11,9 +11,10 @@ import 'package:flutter_getx_palette_diary/src/model/myprofil.dart';
 import 'package:flutter_getx_palette_diary/src/repository/myprofil_repository.dart';
 
 class Profile extends StatefulWidget {
-  Profile({Key? key, required this.binding}) : super(key: key);
-
-  final BindingsBuilder binding;
+  Profile({
+    Key? key,
+    required BindingsBuilder binding,
+  }) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -345,7 +346,7 @@ class _ProfileState extends State<Profile> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           Navigator.of(context).pop();
-                          Get.to(() => const InfoModifyPage());
+                          Get.to(() => InfoModifyPage());
                         }
                       },
                       child: const Text('확인'),

@@ -51,8 +51,8 @@ class SignUpPage extends GetView<UserController> {
         children: [
           CustomTextField(
             hint: "이름",
-            validator: ValidatorUtil.validateName,
             controller: controller.name,
+            validator: (String) {},
           ),
           CustomTextField(
             hint: "이메일",

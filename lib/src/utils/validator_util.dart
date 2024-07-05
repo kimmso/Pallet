@@ -1,12 +1,14 @@
+import 'package:get/get.dart';
 import 'package:validators/validators.dart';
 
 class ValidatorUtil {
-  static String? validateName(String? value) {
+  static bool validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return "공백이 들어갈 수 업습니다.";
-    } else {
-      return null;
+      Get.snackbar("이름 오류!", "공백이 들어갈 수 없습니다.");
+      return false;
     }
+
+    return true;
   }
 
   static String? validateEmail(String? value) {
