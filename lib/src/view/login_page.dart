@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
+import 'package:flutter_getx_palette_diary/src/view/find_password.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_textfield.dart';
 import 'package:get/get.dart';
@@ -71,6 +72,17 @@ class LoginPage extends GetView<UserController> {
                 onPressed: controller.moveToRegister,
                 child: const Text(
                   "회원가입 하시겠습니까?",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.to(() => const FindPasswordPage());
+                },
+                child: const Text(
+                  "비밀번호 찾기",
                   style: TextStyle(
                     color: Colors.black,
                   ),
