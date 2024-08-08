@@ -1,15 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/email_controller.dart';
-import 'package:flutter_getx_palette_diary/src/model/email.dart';
+
 import 'package:flutter_getx_palette_diary/src/view/get_number.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
 import 'package:get/get.dart';
 
 class FindPasswordPage extends GetView<EmailController> {
-  FindPasswordPage({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  const FindPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class FindPasswordPage extends GetView<EmailController> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: _formKey,
+            key: controller.formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +32,7 @@ class FindPasswordPage extends GetView<EmailController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: emailController,
+                  controller: controller.email,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: '이메일',
@@ -56,28 +55,7 @@ class FindPasswordPage extends GetView<EmailController> {
                 const SizedBox(height: 20),
                 CustomElevatedButton(
                   text: "확인",
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final email = emailController.text;
-
-                      final Future<String?> code =
-                          controller.emailFetchData(email);
-
-                      // // 이메일 검증을 위해 비동기 작업을 실행
-                      // Email? correctEmail =
-                      //     await controller.emailFetchData(email);
-
-                      // if (correctEmail == null || correctEmail.email != email) {
-                      //   Get.snackbar('오류', '이메일이 맞지 않습니다.',
-                      //       snackPosition: SnackPosition.BOTTOM);
-                      //   return;
-                      // }
-                      print(123);
-                      print(code);
-
-                      Get.to(() => GetNumberPage(code));
-                    }
-                  },
+                  onPressed: controller.validationEmail,
                 )
               ],
             ),
