@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/view/login_page.dart';
-
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
 import 'package:get/get.dart';
 

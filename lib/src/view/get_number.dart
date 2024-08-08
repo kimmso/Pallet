@@ -4,7 +4,7 @@ import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart
 import 'package:get/get.dart';
 
 class GetNumberPage extends StatelessWidget {
-  const GetNumberPage({super.key});
+  const GetNumberPage(Future<String?> code, {super.key});
 
   @override
   Widget build(BuildContext context) {

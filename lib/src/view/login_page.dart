@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/controller/email_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/user_controller.dart';
+import 'package:flutter_getx_palette_diary/src/repository/email_repository.dart';
 import 'package:flutter_getx_palette_diary/src/utils/validator_util.dart';
 import 'package:flutter_getx_palette_diary/src/view/find_password.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
@@ -79,7 +81,7 @@ class LoginPage extends GetView<UserController> {
               ),
               TextButton(
                 onPressed: () {
-                  Get.to(() => const FindPasswordPage());
+                  Get.to(() => FindPasswordPage());
                 },
                 child: const Text(
                   "비밀번호 찾기",

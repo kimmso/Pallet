@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/app.dart';
 import 'package:flutter_getx_palette_diary/src/controller/post_controller.dart';
 import 'package:flutter_getx_palette_diary/src/controller/postlist_controller.dart';
-import 'package:flutter_getx_palette_diary/src/model/feed.dart';
 import 'package:flutter_getx_palette_diary/src/model/postlist.dart';
 import 'package:flutter_getx_palette_diary/src/repository/post_repository.dart';
 import 'package:flutter_getx_palette_diary/src/view/update_page.dart';
@@ -39,17 +38,17 @@ class MyPage extends GetView<PostListController> {
       future: controller.postlistFetchData(targetTime),
       builder: (context, AsyncSnapshot<List<PostList>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('데이터를 불러오는 중 오류가 발생했습니다.'),
           );
         } else {
           List<PostList>? postList = snapshot.data;
           if (postList == null || postList.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('데이터 없음'),
             );
           }
@@ -74,8 +73,8 @@ class MyPage extends GetView<PostListController> {
           children: [
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.favorite,
                     color: Colors.red,

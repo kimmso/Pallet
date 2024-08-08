@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_palette_diary/src/controller/email_controller.dart';
+import 'package:flutter_getx_palette_diary/src/model/email.dart';
 import 'package:flutter_getx_palette_diary/src/view/get_number.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
 import 'package:get/get.dart';
 
-class FindPasswordPage extends StatelessWidget {
-  const FindPasswordPage({super.key});
+class FindPasswordPage extends GetView<EmailController> {
+  FindPasswordPage({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +20,67 @@ class FindPasswordPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0), // 패딩을 추가하여 여백을 줍니다.
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Column의 정렬을 시작점으로 설정합니다.
-            children: [
-              const Text(
-                '이메일을 입력해주세요.',
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 10), // Text와 TextField 사이에 간격을 추가합니다.
-              const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '이메일', // TextField에 레이블을 추가합니다.
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '이메일을 입력해주세요.',
+                  style: TextStyle(fontSize: 20),
                 ),
-                keyboardType:
-                    TextInputType.emailAddress, // 이메일 입력을 위한 키보드 타입을 설정합니다.
-              ),
-              const SizedBox(height: 20), // TextField와 버튼 사이에 간격을 추가합니다.
-              CustomElevatedButton(
-                text: "확인",
-                onPressed: () {
-                  Get.to(() => const GetNumberPage());
-                },
-              ),
-            ],
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '이메일',
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '이메일을 입력하세요.';
+                    }
+
+                    final emailRegex =
+                        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                    if (!emailRegex.hasMatch(value)) {
+                      return '올바른 이메일 형식이 아닙니다.';
+                    }
+
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                CustomElevatedButton(
+                  text: "확인",
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final email = emailController.text;
+
+                      final Future<String?> code =
+                          controller.emailFetchData(email);
+
+                      // // 이메일 검증을 위해 비동기 작업을 실행
+                      // Email? correctEmail =
+                      //     await controller.emailFetchData(email);
+
+                      // if (correctEmail == null || correctEmail.email != email) {
+                      //   Get.snackbar('오류', '이메일이 맞지 않습니다.',
+                      //       snackPosition: SnackPosition.BOTTOM);
+                      //   return;
+                      // }
+                      print(123);
+                      print(code);
+
+                      Get.to(() => GetNumberPage(code));
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
