@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_palette_diary/src/controller/email_controller.dart';
-
-import 'package:flutter_getx_palette_diary/src/view/get_number.dart';
 import 'package:flutter_getx_palette_diary/src/widget/custom_elevatedbutton.dart';
 import 'package:get/get.dart';
 
@@ -53,10 +49,14 @@ class FindPasswordPage extends GetView<EmailController> {
                   },
                 ),
                 const SizedBox(height: 20),
-                CustomElevatedButton(
-                  text: "확인",
-                  onPressed: controller.validationEmail,
-                )
+                Obx(() {
+                  return controller.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : CustomElevatedButton(
+                          text: "확인",
+                          onPressed: controller.validationEmail,
+                        );
+                }),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_getx_palette_diary/src/model/user.dart';
 import 'package:flutter_getx_palette_diary/src/utils/apiurl.dart';
@@ -104,6 +106,43 @@ class UserRepository {
       } else {
         print('Non-DioError: $error');
       }
+    }
+  }
+
+  Future<void> changepasswordApi(String newpassword) async {
+    try {
+      print(newpassword);
+      String? accessToken = GetStorage().read('accessToken');
+
+      dio.options.headers = {'Authorization': 'Bearer $accessToken'};
+
+      // 요청 데이터 준비
+      final changepasswordRequestData = {
+        "password": newpassword, // 사용자가 입력한 이메일을 여기에 대입
+      };
+
+      print(changepasswordRequestData);
+
+      // API 요청
+      final response = await dio.patch(
+        ApiUrls.changepasswordUrl,
+        data: jsonEncode(changepasswordRequestData), // JSON 형식으로 인코딩
+        options: Options(
+          contentType: Headers.jsonContentType, // Content-Type을 JSON으로 설정
+        ),
+      );
+      print(12345);
+      // 응답 처리
+      if (response.statusCode == 200) {
+        print('비밀번호 변경 성공: ${response.statusCode}');
+        Get.snackbar('성공', '비밀번호가 성공적으로 변경되었습니다.');
+        // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
+      } else {
+        Get.snackbar('실패', '비밀번호 변경에 실패했습니다.');
+      }
+    } catch (e) {
+      Get.snackbar('오류', '비밀번호 변경 중 오류가 발생했습니다.');
+      print('Error occurred: $e');
     }
   }
 }

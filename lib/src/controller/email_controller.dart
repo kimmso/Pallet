@@ -34,8 +34,7 @@ class EmailController extends GetxController {
     try {
       final code = await repository.emailApi(email.text);
       _isLoading(false);
-      print("이 때 넘기는 응답코드");
-      print(code);
+
       Get.to(() => GetNumberPage(code: code!));
     } on Exception catch (err) {
       print(err.toString());

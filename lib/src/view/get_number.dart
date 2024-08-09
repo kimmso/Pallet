@@ -41,13 +41,10 @@ class GetNumberPage extends GetView<EmailController> {
                 CustomElevatedButton(
                   text: "확인",
                   onPressed: () {
-                    print("넘긴 코드");
-                    print(code);
                     final inputCode = codeController.text;
-                    print(inputCode);
+
                     // 사용자가 입력한 코드와 전달받은 코드 비교
                     if (inputCode == code) {
-                      print("성공?");
                       Get.to(() => const ChangePasswordPage());
                     } else {
                       // 코드가 일치하지 않을 때 사용자에게 알림

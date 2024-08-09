@@ -18,6 +18,8 @@ class UserController extends GetxController {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _signupPassword = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
+  final TextEditingController _newpassword = TextEditingController();
+  final TextEditingController _confirm = TextEditingController();
 
   final UserRepository repository;
   UserController({
@@ -30,9 +32,23 @@ class UserController extends GetxController {
   TextEditingController get password => _password;
   TextEditingController get signupPassword => _signupPassword;
   TextEditingController get confirmPassword => _confirmPassword;
+  TextEditingController get newpassword => _newpassword;
+  TextEditingController get confirm => _confirm;
 
   // Rx 변수를 통해 user 객체에 접근할 수 있는 getter 추가
   User? get user => _users.value;
+
+  validate(String value) {
+    if (value == null || value.isEmpty) {
+      return "공백이 들어갈 수 업습니다.";
+    } else if (value.length > 12) {
+      return "패스워드의 길이를 초과하였습니다.";
+    } else if (value.length < 4) {
+      return "패스워드의 최소 길이는 4자입니다";
+    } else {
+      return null;
+    }
+  }
 
   void fetchData() {
     final user = {
@@ -95,6 +111,16 @@ class UserController extends GetxController {
       'password': _password.value.text.toString()
     };
     repository.putUsers(user);
+  }
+
+  void changepasswordfetchData(String newpassword) {
+    validate(newpassword.toString());
+    final user = {
+      'password': newpassword,
+    };
+    repository.changepasswordApi(newpassword);
+
+    moveToLogin();
   }
 
 // 화면 크기별 위젯 능동적 조정

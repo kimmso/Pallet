@@ -64,7 +64,6 @@ class MyProfilController extends GetxController {
       'password': confirmpassword.text.toString(),
     };
     repository.passwordApi(user);
-    print('비밀번호 변경 성공');
 
     moveTologin();
   }

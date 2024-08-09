@@ -23,10 +23,6 @@ class EmailRepository {
         ),
       );
 
-      // 응답 상태 코드와 데이터 로그
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Data: ${response.data}');
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = response.data;
 
