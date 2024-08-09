@@ -4,12 +4,14 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?) validator;
+  final Widget? suffixIcon;
 
   const CustomTextField({
     super.key,
     required this.hint,
     required this.validator,
     this.controller,
+    this.suffixIcon,
   });
 
   @override
@@ -26,20 +28,20 @@ class CustomTextField extends StatelessWidget {
         //hint == "비밀번호" ? true : false,
 
         decoration: InputDecoration(
-          hintText: hint,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
+            hintText: hint,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            suffixIcon: suffixIcon),
       ),
     );
   }

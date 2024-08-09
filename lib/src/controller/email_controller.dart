@@ -41,6 +41,19 @@ class EmailController extends GetxController {
     }
   }
 
+  Future<String?> authFetchData(String email) async {
+    // 이메일 주소를 파라미터로 전달하여 emailApi 호출
+    try {
+      print(email);
+      final code = await repository.emailApi(email);
+
+      _isLoading(false);
+      return code;
+    } on Exception catch (err) {
+      print(err.toString());
+    }
+  }
+
   // 6자리 랜덤 코드를 생성하는 메서드
   int _generateRandomCode() {
     final random = Random();

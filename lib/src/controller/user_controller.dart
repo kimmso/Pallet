@@ -20,6 +20,7 @@ class UserController extends GetxController {
   final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _newpassword = TextEditingController();
   final TextEditingController _confirm = TextEditingController();
+  final TextEditingController _authcode = TextEditingController();
 
   final UserRepository repository;
   UserController({
@@ -34,6 +35,7 @@ class UserController extends GetxController {
   TextEditingController get confirmPassword => _confirmPassword;
   TextEditingController get newpassword => _newpassword;
   TextEditingController get confirm => _confirm;
+  TextEditingController get authcode => _authcode;
 
   // Rx 변수를 통해 user 객체에 접근할 수 있는 getter 추가
   User? get user => _users.value;

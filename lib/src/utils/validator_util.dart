@@ -52,4 +52,14 @@ class ValidatorUtil {
       return null;
     }
   }
+
+  static String? validateConfirmCode(String? value) {
+    if (value == null || value.isEmpty) {
+      return "공백이 들어갈 수 업습니다.";
+    } else if (value.length == 8) {
+      return "8자리를 입력해주세요.";
+    } else {
+      return null;
+    }
+  }
 }
